@@ -1,0 +1,269 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --gold: #d4af37;
+    --light-gold: #ffe7a0;
+    --black: #080808;
+    --card: #15120a;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--black);
+    color: var(--gold);
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 38px 15px;
+    background: #000;
+    border-bottom: 2px solid var(--gold);
+}
+
+header h1 {
+    font-size: 42px;
+    letter-spacing: 5px;
+    text-shadow: 0 0 15px #a88720;
+}
+
+header p {
+    color: var(--light-gold);
+    margin-top: 12px;
+    font-size: 18px;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 18px;
+    background: #100e08;
+    border-bottom: 1px solid #6e581b;
+}
+
+nav a {
+    color: var(--gold);
+    text-decoration: none;
+    padding: 10px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold);
+}
+
+main {
+    width: 90%;
+    max-width: 1150px;
+    margin: 35px auto;
+}
+
+h2 {
+    text-align: center;
+    margin: 25px 0;
+    color: var(--light-gold);
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #c9b777;
+}
+
+.students {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+}
+
+.student {
+    background: var(--card);
+    border: 1px solid #6d571c;
+    border-radius: 10px;
+    padding: 17px;
+    transition: 0.3s;
+}
+
+.student:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 0 12px #8b711d44;
+}
+
+.student span {
+    color: var(--light-gold);
+    margin-right: 6px;
+}
+
+.subjects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.subject {
+    background: linear-gradient(145deg, #19150a, #080808);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    min-height: 145px;
+    padding: 22px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: 0.3s;
+}
+
+.subject span {
+    font-size: 28px;
+}
+
+.subject strong {
+    font-size: 18px;
+}
+
+.subject small {
+    color: var(--light-gold);
+}
+
+.subject:hover {
+    background: var(--gold);
+    color: #000;
+    transform: translateY(-5px);
+    box-shadow: 0 0 18px #d4af3755;
+}
+
+.subject:hover small {
+    color: #302300;
+}
+
+.quiz {
+    margin: 35px auto;
+    padding: 28px;
+    max-width: 750px;
+    border: 1px solid var(--gold);
+    border-radius: 15px;
+    background: var(--card);
+}
+
+#progress {
+    text-align: center;
+    margin-bottom: 22px;
+    color: var(--light-gold);
+}
+
+#question {
+    margin: 22px 0;
+    line-height: 1.6;
+    color: #fff0bc;
+}
+
+#answers {
+    display: grid;
+    gap: 12px;
+}
+
+.answer {
+    padding: 15px;
+    background: #080808;
+    color: var(--gold);
+    border: 1px solid #66521b;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.answer:hover:not(:disabled) {
+    background: #30260d;
+    border-color: var(--gold);
+}
+
+.answer.correct {
+    background: #153a20;
+    color: #b8ffbf;
+    border-color: #38a957;
+}
+
+.answer.wrong {
+    background: #421717;
+    color: #ffc1c1;
+    border-color: #d84a4a;
+}
+
+button:disabled {
+    cursor: default;
+}
+
+#feedback {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+#nextBtn,
+.back {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 5px 5px 5px 0;
+}
+
+#nextBtn:hover,
+.back:hover {
+    background: var(--light-gold);
+}
+
+.hidden {
+    display: none !important;
+}
+
+footer {
+    margin-top: 55px;
+    padding: 25px 10px;
+    text-align: center;
+    background: #000;
+    color: #a98b32;
+    border-top: 1px solid var(--gold);
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 30px;
+        letter-spacing: 3px;
+    }
+
+    main {
+        width: 94%;
+    }
+
+    .quiz {
+        padding: 17px;
+    }
+
+    nav {
+        gap: 4px;
+    }
+}

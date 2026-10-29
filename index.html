@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-B Sinf | Test Markazi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>★ 5-B SINF ★</h1>
+    <p>Bilim — kelajak kaliti!</p>
+</header>
+
+<nav>
+    <a href="#home">Bosh sahifa</a>
+    <a href="#students">O‘quvchilar</a>
+    <a href="#tests">Testlar</a>
+</nav>
+
+<main id="home">
+    <h2>Bizning 5-B sinfimiz</h2>
+    <p class="intro">Fanlardan test ishlang va bilimingizni sinab ko‘ring!</p>
+
+    <section id="students">
+        <h2>👑 O‘quvchilar</h2>
+        <div class="students" id="studentList"></div>
+    </section>
+
+    <section id="tests">
+        <h2>📚 Fanlar va 35 ta test</h2>
+        <div class="subjects" id="subjectList"></div>
+    </section>
+
+    <section id="quiz" class="quiz hidden">
+        <h2 id="quizTitle">Test</h2>
+        <p id="progress"></p>
+        <h3 id="question"></h3>
+        <div id="answers"></div>
+        <p id="feedback"></p>
+        <button id="nextBtn" onclick="nextQuestion()">Keyingi savol →</button>
+        <button class="back" onclick="showSubjects()">Fanlarga qaytish</button>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 | 5-B SINF | Barcha huquqlar himoyalangan</p>
+</footer>
+
+<script>
+const students = [
+    "Babaqulov Nazir",
+    "Saidkasimzada Umarbek",
+    "Vosiyev Umar",
+    "Umidjonov Bilol",
+    "Baxtiyorov Ali",
+    "Xabibulayev Nurmuxammad",
+    "Saidmurodov Sherzod",
+    "Alimov Begzod",
+    "Inomov Mustafo",
+    "Raxmonberdiyev Aziymjon",
+    "G'ayratov Shohjahon"
+];
+
+const subjects = [
+    "Matematika",
+    "Literatura",
+    "Rus tili",
+    "Informatika",
+    "O'zbek tili",
+    "Tarix",
+    "Turk tili",
+    "Ingliz tili",
+    "Arab tili"
+];
+
+const studentList = document.getElementById("studentList");
+const subjectList = document.getElementById("subjectList");
+
+students.forEach((name, index) => {
+    studentList.innerHTML += `
+        <div class="student">
+            <span>${index + 1}.</span> ${name}
+        </div>`;
+});
+
+subjects.forEach((subject, index) => {
+    subjectList.innerHTML += `
+        <button class="subject" onclick="startQuiz(${index})">
+            <span>${["➗","📖","🔤","💻","✍️","🏛️","🌙","🌍","📜"][index]}</span>
+            <strong>${subject}</strong>
+            <small>35 ta test</small>
+        </button>`;
+});
+
+// Har bir fan uchun namunaviy savollar.
+// Qolgan savollarni ham o'zingiz qo'shishingiz mumkin.
+const questionBank = {
+    "Matematika": [
+        { q: "25 + 17 = ?", a: ["32", "42", "52", "40"], c: 1 },
+        { q: "9 × 7 = ?", a: ["56", "63", "72", "49"], c: 1 },
+        { q: "100 − 38 = ?", a: ["62", "72", "68", "52"], c: 0 },
+        { q: "81 ÷ 9 = ?", a: ["8", "7", "9", "6"], c: 2 },
+        { q: "12 × 12 = ?", a: ["124", "144", "134", "154"], c: 1 }
+    ],
+    "Literatura": [
+        { q: "Ertak nima?", a: ["Janr", "Son", "Rang", "O'lchov"], c: 0 },
+        { q: "She'r yozuvchi kim?", a: ["Shoir", "Rassom", "Shifokor", "Usta"], c: 0 },
+        { q: "Asarning asosiy qahramoni nima deyiladi?", a: ["Muallif", "Bosh qahramon", "O'quvchi", "Tomoshabin"], c: 1 }
+    ],
+    "Rus tili": [
+        { q: "'Книга' so'zining tarjimasi?", a: ["Daftar", "Kitob", "Qalam", "Maktab"], c: 1 },
+        { q: "'Мама' so'zining tarjimasi?", a: ["Ota", "Ona", "Aka", "Uka"], c: 1 }
+    ],
+    "Informatika": [
+        { q: "Kompyuter nima?", a: ["Elektron qurilma", "Meva", "Kiyim", "O'simlik"], c: 0 },
+        { q: "HTML nima uchun ishlatiladi?", a: ["Veb sahifa yaratish", "Ovqat pishirish", "Rasm chizish uchungina", "Musiqa tinglash"], c: 0 }
+    ],
+    "O'zbek tili": [
+        { q: "Unli harflar nechta?", a: ["5 ta", "6 ta", "7 ta", "8 ta"], c: 1 },
+        { q: "Ot nimani bildiradi?", a: ["Harakatni", "Belgini", "Shaxs va narsani", "Miqdorni"], c: 2 }
+    ],
+    "Tarix": [
+        { q: "Tarix nimani o'rganadi?", a: ["O'tmishni", "Faqat matematikani", "Tabiatni", "Sportni"], c: 0 },
+        { q: "Arxeologlar nimani o'rganadi?", a: ["Qadimiy topilmalarni", "Yulduzlarni", "Musiqani", "Sportni"], c: 0 }
+    ],
+    "Turk tili": [
+        { q: "'Merhaba' nimani anglatadi?", a: ["Salom", "Xayr", "Rahmat", "Iltimos"], c: 0 },
+        { q: "'Teşekkürler' nimani anglatadi?", a: ["Salom", "Rahmat", "Xayr", "Ha"], c: 1 }
+    ],
+    "Ingliz tili": [
+        { q: "'Apple' tarjimasi?", a: ["Nok", "Olma", "Uzum", "Shaftoli"], c: 1 },
+        { q: "'Book' tarjimasi?", a: ["Kitob", "Stol", "Eshik", "Uy"], c: 0 }
+    ],
+    "Arab tili": [
+        { q: "'السلام عليكم' qanday salomlashuv?", a: ["Assalomu alaykum", "Xayr", "Rahmat", "Xayrli tun"], c: 0 },
+        { q: "'كتاب' so'zining ma'nosi?", a: ["Qalam", "Kitob", "Uy", "Suv"], c: 1 }
+    ]
+};
+
+let currentSubject = "";
+let questions = [];
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz(index) {
+    currentSubject = subjects[index];
+
+    const samples = questionBank[currentSubject] || [];
+    questions = [];
+
+    for (let i = 0; i < 35; i++) {
+        if (samples.length) {
+            questions.push(samples[i % samples.length]);
+        } else {
+            questions.push({
+                q: currentSubject + " — " + (i + 1) + "-savol. Bu savolni o'qituvchi bilan to'ldiring.",
+                a: ["A javob", "B javob", "C javob", "D javob"],
+                c: 0
+            });
+        }
+    }
+
+    currentIndex = 0;
+    score = 0;
+
+    document.getElementById("tests").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
+    document.getElementById("quizTitle").textContent = currentSubject + " testi";
+    document.getElementById("feedback").textContent = "";
+
+    showQuestion();
+    document.getElementById("quiz").scrollIntoView({ behavior: "smooth" });
+}
+
+function showQuestion() {
+    answered = false;
+    const item = questions[currentIndex];
+
+    document.getElementById("progress").textContent =
+        "Savol: " + (currentIndex + 1) + " / 35";
+
+    document.getElementById("question").textContent = item.q;
+    document.getElementById("feedback").textContent = "";
+
+    const answers = document.getElementById("answers");
+    answers.innerHTML = "";
+
+    item.a.forEach((answer, i) => {
+        const button = document.createElement("button");
+        button.className = "answer";
+        button.textContent = ["A", "B", "C", "D"][i] + ") " + answer;
+        button.onclick = () => checkAnswer(i, button);
+        answers.appendChild(button);
+    });
+
+    document.getElementById("nextBtn").textContent =
+        currentIndex === 34 ? "Natijani ko'rish ★" : "Keyingi savol →";
+}
+
+function checkAnswer(index, button) {
+    if (answered) return;
+    answered = true;
+
+    const correct = questions[currentIndex].c;
+    const all = document.querySelectorAll(".answer");
+
+    all.forEach((b, i) => {
+        b.disabled = true;
+        if (i === correct) b.classList.add("correct");
+    });
+
+    if (index === correct) {
+        score++;
+        document.getElementById("feedback").textContent = "To'g'ri javob! ★";
+    } else {
+        button.classList.add("wrong");
+        document.getElementById("feedback").textContent =
+            "Xato javob. To'g'ri javob yashil rangda ko'rsatilgan.";
+    }
+}
+
+function nextQuestion() {
+    if (!answered) {
+        document.getElementById("feedback").textContent =
+            "Avval javobni tanlang!";
+        return;
+    }
+
+    if (currentIndex < 34) {
+        currentIndex++;
+        showQuestion();
+    } else {
+        document.getElementById("question").textContent =
+            "Test tugadi! Natijangiz: " + score + " / 35";
+        document.getElementById("progress").textContent =
+            "Foiz: " + Math.round(score / 35 * 100) + "%";
+        document.getElementById("answers").innerHTML = "";
+        document.getElementById("feedback").textContent =
+            "Yana bir fan bo'yicha o'zingizni sinab ko'ring!";
+        document.getElementById("nextBtn").style.display = "none";
+    }
+}
+
+function showSubjects() {
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("tests").classList.remove("hidden");
+    document.getElementById("nextBtn").style.display = "inline-block";
+    document.getElementById("tests").scrollIntoView({ behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
